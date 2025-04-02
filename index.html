@@ -1,167 +1,151 @@
-<!--Copyright 2020 David Whiting-->
-<!--This work is licensed under a Creative Commons Attribution 4.0 International License-->
-<!--https://creativecommons.org/licenses/by/4.0/-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>AutoTracker</title>
-<!--    <script type="text/javascript" src="dist/tracker.js"></script>-->
     <script type="module" src="target/tracker.js"></script>
-<!--    <link rel="icon" type="image/png" href="images/icon.png">-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="AutoTracker" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.vitling.xyz/toys/autotracker" />
-    <meta property="og:image" content="https://www.vitling.xyz/toys/autotracker/preview.png" />
-    <meta property="og:description" content="An endless randomised algorithmic Chiptune composition by Vitling aka Demoscene Time Machine" />
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <style type = "text/css">
-        .note {
-            display:block;
-            border-top: 1px dotted #444444;
-            margin-bottom: -2px;
-            height: 1em;
-            overflow: hidden;
-            max-width: 14ch;
-            padding-left: 1ch;
-            padding-right: 1ch;
-            margin-left:auto;
-            margin-right:auto;
-        }
-
-        .note:nth-of-type(4n+1) {
-            border-top: 1px dotted darkred;
-        }
-
-        .note:nth-of-type(16n+1) {
-            border-top: 1px solid darkorange;
-        }
-
-        #display {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #222222;
-        }
-
-        #display .columns {
-            display:flex; width: 100%; justify-content: space-evenly;
-        }
-
-        #display .header {
-            font-size: 2em;
-            text-align: center;
-        }
-
-        #display a.save-string {
-            color: #ef6dea;
-        }
-
-        #display code {
-            font-family: "VT323", monospace;
-            font-size: 1em;
-            width:20%;
-        }
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
         body {
             font-family: "VT323", monospace;
             background-color: #000000;
             color: #6699FF;
+            text-align: center;
+            padding: 20px;
         }
         header {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        select, input, button {
             font-size: 16pt;
-
-            text-align: center;
-        }
-        h1 {
-            font-family: "VT323", monospace;
-            letter-spacing: 1ch;
-            font-size:4em;
-            margin:0;
-        }
-
-        @media(max-width: 1000px) {
-            h1 {
-                letter-spacing: 0.5ch;
-                font-size:3em;
-            }
-        }
-
-        @media(max-width: 700px) {
-            h1 {
-                font-size: 2em;
-                letter-spacing: 0.5ch;
-            }
-            header {
-                font-size: 14pt;
-            }
-
-        }
-
-        h3 {
-            height: 1.2em;
-            margin:0;
-        }
-
-        .auto {
-            color: darkorange;
-        }
-        .tracker {
-            color: #ef6dea;
-        }
-        #seed-entry {
-            font-size:14pt;
-            text-align: center;
-            margin: 100px auto;
-        }
-
-        #seed-entry input,button {
             background-color: black;
             color: darkorange;
-            font-family: "VT323", monospace;
-        }
-
-        #seed-entry input {
-            font-size:16pt;
             border: 2px solid #6699FF;
+            margin: 5px;
+            padding: 5px;
         }
-
-        #seed-entry button {
-            border: 2px solid #6699FF;
-            font-size: 32pt;
+        .slider {
+            width: 300px;
         }
-
-        h3 {
-            text-align: center;
-            font-size: 2em;
+        .option-group {
+            margin: 15px 0;
         }
-
-        a {
+        .export-buttons button {
+            margin: 5px;
+        }
+        #display {
+            margin-top: 20px;
+            font-size: 14pt;
             color: white;
         }
-        p {
-            margin: 0;
-        }
-
     </style>
 </head>
 <body>
-<header>
-<h1><span class="auto">AUTO</span><span class="tracker">TRACKER</span></h1>
-    <p>An endless randomised algorithmic Chiptune composition by <a href="https://www.vitling.xyz">Vitling</a> aka <a href="https://demoscenetimemachine.com/album/gravity">Demoscene Time Machine</a></p>
-    <p>Expect much better results with Firefox, Chrome or Opera, because they follow the WebAudio standard much better than Safari</p>
-    <p><a href="https://github.com/DavW/autotracker">Source Code</a></p>
-</header>
-<div id="display">
-<div id="seed-entry">
-    Enter Seed: <input autofocus id="seed-text" type="text" placeholder="word or phrase or savecode" size="30">
-    or leave blank for random<br><br>
-    <button id="start">Start</button>
-</div>
-</div>
+    <header>AutoTracker - Enhanced Chiptune Generator</header>
+
+    <div class="option-group">
+        <label>Genre:</label>
+        <select id="genre">
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="horror">Horror</option>
+            <option value="platformer">Platformer</option>
+        </select>
+
+        <br><br>
+
+        <label>Tempo (BPM):</label>
+        <input type="range" id="tempo" class="slider" min="60" max="200" value="120">
+
+        <br><br>
+
+        <label>Mood:</label>
+        <select id="mood">
+            <option value="cheerful">Cheerful</option>
+            <option value="tense">Tense</option>
+            <option value="eerie">Eerie</option>
+            <option value="calm">Calm</option>
+        </select>
+
+        <br><br>
+
+        <label>Instrumentation:</label>
+        <select id="instrumentation">
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+            <option value="noise">Noise</option>
+        </select>
+    </div>
+
+    <div class="option-group">
+        <label>Melody Complexity:</label>
+        <select id="melody-complexity">
+            <option value="simple">Simple</option>
+            <option value="complex">Complex</option>
+        </select>
+
+        <br><br>
+
+        <label>Rhythm Variation:</label>
+        <select id="rhythm-variation">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <br><br>
+
+        <label>Intensity:</label>
+        <select id="intensity">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <br><br>
+
+        <label>Pattern Length:</label>
+        <input type="number" id="pattern-length" value="16" min="4" max="128">
+    </div>
+
+    <div id="seed-entry">
+        Enter Seed: <input id="seed-text" type="text" placeholder="word or phrase or savecode" size="30">
+        or leave blank for random<br><br>
+        <button id="start">Start</button>
+    </div>
+
+    <div class="export-buttons">
+        <button id="export-midi">Export as MIDI</button>
+        <button id="export-wav">Export as WAV</button>
+        <button id="export-ogg">Export as OGG</button>
+    </div>
+
+    <div id="display">Ready to generate endless chiptune music!</div>
+
+    <script>
+        document.getElementById('start').addEventListener('click', () => {
+            const settings = {
+                genre: document.getElementById('genre').value,
+                tempo: parseInt(document.getElementById('tempo').value),
+                mood: document.getElementById('mood').value,
+                instrumentation: document.getElementById('instrumentation').value,
+                melodyComplexity: document.getElementById('melody-complexity').value,
+                rhythmVariation: document.getElementById('rhythm-variation').value,
+                intensity: document.getElementById('intensity').value,
+                patternLength: parseInt(document.getElementById('pattern-length').value),
+                seed: document.getElementById('seed-text').value || ''
+            };
+
+            startMusic(settings);
+        });
+
+        document.getElementById('export-midi').addEventListener('click', () => exportMIDI());
+        document.getElementById('export-wav').addEventListener('click', () => exportWAV());
+        document.getElementById('export-ogg').addEventListener('click', () => exportOGG());
+    </script>
 </body>
 </html>
